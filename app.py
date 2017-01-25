@@ -2,6 +2,8 @@ import json
 from flask import Flask
 from flask import render_template,url_for,redirect,request,make_response
 
+from options import DEFAULTS
+
 app=Flask(__name__)
 
 @app.route('/')
@@ -16,10 +18,13 @@ def get_saved_data():
 		data={}
 	return data
 
+@app.route('/builder')
+def builder():
+	return render_template("builder.html",saves=get_saved_data(),options=DEFAULTS)
 
 @app.route('/save', methods=['POST'])
 def save():
-	response = make_response(redirect(url_for('index')))
+	response = make_response(redirect(url_for('builder')))
 	data=get_saved_data()
 	data.update(dict(request.form.items()))
 	response.set_cookie('character',json.dumps(data))
