@@ -1,11 +1,11 @@
 import json
 from flask import Flask
-from flask import render_template,url_for,redirect,request,make_response
+from flask import render_template,url_for,redirect,request,make_response,flash
 
 from options import DEFAULTS
 
 app=Flask(__name__)
-
+app.secret_key='b4ht234uvw2yb4387we7y8w4y#o823'
 @app.route('/')
 def index():
 	data=get_saved_data()
@@ -24,6 +24,7 @@ def builder():
 
 @app.route('/save', methods=['POST'])
 def save():
+	flash("That's some great design")
 	response = make_response(redirect(url_for('builder')))
 	data=get_saved_data()
 	data.update(dict(request.form.items()))
